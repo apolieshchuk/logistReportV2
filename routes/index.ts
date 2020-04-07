@@ -8,16 +8,19 @@ const router: express.Router = express.Router();
 router.get('/', (req: express.Request, res: express.Response, next: express.NextFunction) => {
   dbPool.getConnection((err: mysql.MysqlError, conn: mysql.PoolConnection) => {
     if (err) {
-      console.log(err);
-      return;
+      res.render('error', { err });
+      return next(err);
     }
     /* get query */
     conn.query('SELECT * from auto', (err2: mysql.MysqlError, result: any) => {
-      if (err2) throw err2;
+      if (err2) {
+        res.render('error', { err });
+        return next(err);
+      }
       console.log(result[0]);
+      return res.render('index', { autos: result });
     });
   });
-  res.render('index', { title: 'Express' });
 });
 
 export default router;
