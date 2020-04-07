@@ -1,0 +1,5 @@
+{
+    "watch": ["routes", "model"],
+    "ext": "ts",
+    "exec": "DEBUG=logistReportV2:* npm start"
+}
